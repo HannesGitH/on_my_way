@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:on_my_way/_maps.dart';
+import 'maps.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'search_filter.dart';
 
 void main() => runApp(MyApp());
 
@@ -38,7 +39,14 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  static String keyword = "Bakery";
 
+  void updateKeyWord(String newKeyword) {
+    print(newKeyword);
+    setState(() {
+      keyword = newKeyword;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +71,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
         tooltip: 'Increment',
         child: Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
