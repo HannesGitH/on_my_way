@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:on_my_way/widgets/addRouteButton.dart';
 import 'maps.dart';
+import 'package:on_my_way/widgets/standartDrawer.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'search_filter.dart';
 
@@ -18,6 +19,21 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.teal,
       ),
       home: MyHomePage(title: 'On My Way  -demo',),
+    );
+  }
+}
+
+class RouteAdderPage extends StatelessWidget{
+  @override
+  Widget build(BuildContext context){
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("OMW NEUES PAKET"),
+        centerTitle: true,
+      ),
+      body: Center(
+        child: Text("Placeholder Dummy , just go back"),
+      ),
     );
   }
 }
@@ -60,6 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
+        drawer: standartDrawer(),
       appBar: AppBar(
 
         // Here we take the value from the MyHomePage object that was created by
@@ -73,6 +90,9 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
   void openAddRoute(){
-
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => RouteAdderPage()),
+      );
   }
 }
