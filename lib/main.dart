@@ -7,21 +7,22 @@ void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
 
-        primarySwatch: Colors.lightGreen[600],
+        primarySwatch: Colors.teal,
       ),
-      home: MyHomePage(title: 'On My Way  -demo'),
+      home: MyHomePage(title: 'On My Way  -demo',),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({Key key, this.title,}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -41,6 +42,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   static String keyword = "Bakery";
 
+
   void updateKeyWord(String newKeyword) {
     print(newKeyword);
     setState(() {
@@ -58,18 +60,12 @@ class _MyHomePageState extends State<MyHomePage> {
     // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
+
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: GoogleMap(
-        initialCameraPosition: _myLoc,
-        mapType: MapType.normal,
-        onMapCreated: (GoogleMapController controller){
-          _controller.complete(controller);
-        }
-
-      ),
+      body: Maps(keyword),
       floatingActionButton: FloatingActionButton(
         tooltip: 'Increment',
         child: Icon(Icons.add),

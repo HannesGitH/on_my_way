@@ -8,11 +8,10 @@
          FlutterApplication and put your custom class here. -->
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="on_my_way"
+        android:label="On My Way"
         android:icon="@mipmap/ic_launcher">
-        <!-- add real key here (da wo jz empty ist) : -->
         <meta-data android:name="com.google.android.geo.API_KEY"
-        android:value="EMPTY"
+        android:value="AIzaSyDL-3Yf20flTdmx6OOJLb2eIa9qc43LXNU"
         />
     <activity
         android:name=".MainActivity"

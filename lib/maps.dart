@@ -19,13 +19,12 @@ class Maps extends StatefulWidget {
 }
 
 class _Maps extends State<Maps> {
-  static const String _API_KEY = 'EMPTY';
+  static const String _API_KEY = 'AIzaSyDL-3Yf20flTdmx6OOJLb2eIa9qc43LXNU';
 
-  static double latitude = 52.4320773;
-  static double longitude = 13.2673763;
+  static double latitude = 52.5201727;
+  static double longitude = 13.4035465;
   static const String baseUrl =
       "https://maps.googleapis.com/maps/api/place/nearbysearch/json";
-
 
 
 
@@ -36,12 +35,27 @@ class _Maps extends State<Maps> {
 
   Completer<GoogleMapController> _controller = Completer();
 
+
+
   static final CameraPosition _myLoc=
-  CameraPosition(target: LatLng(latitude, longitude),);
+  CameraPosition(
+    target: LatLng(latitude, longitude),
+    zoom: 12,
+    tilt: 2,
+  );
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      body: GoogleMap(
+        initialCameraPosition: _myLoc,
+        mapType: MapType.normal,
+        onMapCreated: (GoogleMapController controller){
+          _setStyle(controller);
+          _controller.complete(controller);
+        }
+
+    ),);
   }
 
   void _handleResponse(data){
@@ -57,6 +71,13 @@ class _Maps extends State<Maps> {
       print(data);
     }
   }
+
+  void _setStyle(GoogleMapController controller) async {
+    String value = await DefaultAssetBundle.of(context)
+        .loadString('assets/maps_style.json');
+    controller.setMapStyle(value);
+  }
+
 }
 
 
