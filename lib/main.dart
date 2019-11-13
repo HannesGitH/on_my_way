@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:on_my_way/widgets/addRouteButton.dart';
 import 'maps.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'search_filter.dart';
@@ -66,10 +67,12 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Maps(keyword),
-      floatingActionButton: FloatingActionButton(
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
+      floatingActionButton: addRouteButton(
+        onPressed: openAddRoute,
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
+  }
+  void openAddRoute(){
+
   }
 }
