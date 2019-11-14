@@ -4,6 +4,7 @@ import 'maps.dart';
 import 'package:on_my_way/widgets/standartDrawer.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'search_filter.dart';
+import 'widgets/NotYetImplementedPage.dart';
 
 void main() => runApp(MyApp());
 
