@@ -49,36 +49,11 @@ class standartDrawer extends StatelessWidget {
                       notYetPage(context);
                     },
                   ),
-
                 ],
               ),
             ),
             // This container holds the align
-            Container(
-              // This align moves the children to the bottom
-                child: Align(
-                    alignment: FractionalOffset.bottomCenter,
-                    // This container holds all the children that will be aligned
-                    // on the bottom and should not scroll with the above ListView
-                    child: Container(
-                        child: Column(
-                          children: <Widget>[
-                            Divider(),
-                            MyListTile(
-                              icon:Icons.feedback,
-                              text:'Feedback',
-                              color: Colors.black54,
-                              onTap: () {
-                                notYetPage(context);}
-                            ),
-                            UeberUns(
-
-                            ),
-                        ],
-                        )
-                    )
-                )
-            )
+            Drawer_BottomSection(),
           ],
         ),
       )
@@ -86,70 +61,148 @@ class standartDrawer extends StatelessWidget {
   }
 }
 
-class UeberUns extends StatefulWidget{
-  @override
-  _ueberUnsS createState() => _ueberUnsS();
+
+
+
+class Drawer_BottomSection extends StatefulWidget{
+  createState() => _Drawer_BottomSectionS();
 }
+class _Drawer_BottomSectionS extends State<Drawer_BottomSection> with SingleTickerProviderStateMixin{
 
-class _ueberUnsS extends State<UeberUns>{
-
-  bool isActive=false;
-
+  AnimationController controller;
+  @override
+  void initState() {
+    super.initState();
+    controller= AnimationController(duration: Duration(milliseconds: 400),vsync: this);
+  }
   @override
   Widget build(BuildContext context) {
-    if(isActive){
-      return Column(
-        children: <Widget>[
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Container(
-              padding: EdgeInsets.symmetric(
-                vertical: 8,
-                horizontal: 20,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text("Project OnMyWay",
-                  style: TextStyle(
-                    fontSize: 25,
-                  ),),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  Text(" Hannes Hattenbach",textAlign: TextAlign.left,),
-                  Text(" Linus Ostermayer",textAlign: TextAlign.left,),
-                  Text(" Esther Helmi",textAlign: TextAlign.left,),
-                  Text(" Cora Fritz",textAlign: TextAlign.left,),
-                  Text(" Thea Doerge",textAlign: TextAlign.left,),
-                ],
-              ),
+    return MoveUpAnim(controller: controller);
+  }
+}
+
+class MoveUpAnim extends StatelessWidget{
+  final AnimationController controller;
+  MoveUpAnim({Key key, this.controller}):
+        fortschritt= Tween<double>(
+          begin: 0.0,
+          end: -80.0,
+        ).animate(CurvedAnimation(
+          parent: controller,
+          curve: Curves.elasticOut,
+        ),),
+        super(key: key);
+  final Animation<double> fortschritt;
+
+  build(context){
+    return AnimatedBuilder(
+      animation: controller,
+      builder: (context, builder){
+        return Container(
+            child: Align(
+                alignment: FractionalOffset.bottomCenter,
+                child: Column(
+                    children: <Widget>[
+                      Transform.translate(
+                        offset: Offset(0.0, fortschritt.value),
+                        child: Stack(
+                          children: <Widget>[
+                            Column(
+                              children: <Widget>[
+                                Divider(),
+                                MyListTile(
+                                    icon:Icons.feedback,
+                                    text:'Feedback',
+                                    color: Colors.black54,
+                                    onTap: () {
+                                      notYetPage(context);}
+                                ),
+                              ],),
+                          ],
+                        ),
+                      ),
+                      Stack(
+                        alignment: Alignment.bottomLeft,
+                        children: <Widget>[
+                          ourPag(),
+                          Column(
+                            children: <Widget>[
+                              MyListTile(
+                                icon:Icons.supervised_user_circle,
+                                text:"Über uns",
+                                color: isActive?Colors.teal:Colors.black54,
+                                onTap: () {
+                                  toggleUs();
+                                },
+                              ),
+                            ]
+                          ),
+                        ],
+                      ),
+                    ],
+                ),
             ),
-          ),
-            MyListTile(
-            icon:Icons.supervised_user_circle,
-              text:"Über uns",
-              color: Colors.teal,
-              onTap: () {
-                  toggleUs();
-              },
-            )
-          ]
-      );
-    }
-    return MyListTile(
-      icon:Icons.supervised_user_circle,
-      text:"Über uns",
-      color: Colors.black54,
-      onTap: () {
-        toggleUs();
+        );
       },
     );
   }
 
-  void toggleUs(){
-    setState(() {
-      isActive=!isActive;
-    });
+  _open(){
+    controller.forward();
   }
+  _close(){
+    controller.reverse();
+  }
+
+  void toggleUs(){
+    if(isActive){
+      _close();
+    }else{
+      _open();
+      isActive=true;
+    }
+  }
+  bool isActive=false;
+
+
+  Widget ourPag(){
+    if(fortschritt.value>-2){isActive=false;}else {isActive=true;}
+    if(isActive){
+      return Transform.translate(
+        offset: Offset(0.0, fortschritt.value),
+        child: Align(
+          alignment: Alignment.centerLeft,
+          child: Container(
+            padding: EdgeInsets.symmetric(
+              vertical: 8,
+              horizontal: 20,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text("Project OnMyWay",
+                  style: TextStyle(
+                    fontSize: 25,
+                  ),),
+                SizedBox(
+                  height: 8,
+                ),
+                Text(" Hannes Hattenbach",textAlign: TextAlign.left,),
+                Text(" Linus Ostermayer",textAlign: TextAlign.left,),
+                Text(" Esther Helmi",textAlign: TextAlign.left,),
+                Text(" Cora Fritz",textAlign: TextAlign.left,),
+                Text(" Thea Doerge",textAlign: TextAlign.left,),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+    return SizedBox(
+      height: 1,
+    );
+  }
+
 }
+
+
