@@ -38,7 +38,7 @@ class _Maps extends State<Maps> {
 
   Completer<GoogleMapController> _controller = Completer();
 
-
+  List<Marker> markers=<Marker>[];
 
   static final CameraPosition _myLoc=
   CameraPosition(
@@ -51,17 +51,54 @@ class _Maps extends State<Maps> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: GoogleMap(
-
-        myLocationButtonEnabled: true,
+        compassEnabled: true,
+        myLocationButtonEnabled: false,
         myLocationEnabled: true,
         initialCameraPosition: _myLoc,
         mapType: MapType.normal,
+        markers: Set<Marker>.of(markers),
         onMapCreated: (GoogleMapController controller){
           mapController=controller;
           _setStyle(controller);
           _controller.complete(controller);
         }
-    ),);
+    ),
+    floatingActionButton: Align(
+      alignment: Alignment.bottomRight,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          FloatingActionButton(
+            child: Icon(Icons.home, color: Colors.white,),
+            onPressed: () {
+              /*markers=[];
+                markers.add(
+                  Marker(
+                    markerId: MarkerId("1!"),
+                    position: LatLng(0,0),
+                    infoWindow: InfoWindow(
+                        title: "Absolute Zero", snippet: "coords: 0,0"),
+                    onTap: () {},
+                  ),
+                );*/
+              searchNearby(latitude, longitude);
+            }
+          ),
+          SizedBox(width: 8.0),
+          FloatingActionButton(
+            child: Icon(Icons.my_location, color: Colors.white,),
+              onPressed: () {
+                mapController.animateCamera(
+                  CameraUpdate.newCameraPosition(
+                    CameraPosition(
+                        target: LatLng(latitude, longitude), zoom: 15.0,),
+                  ),
+                );
+            }),
+        ],
+      ),
+    ),
+    );
   }
 
   void _handleResponse(data){
@@ -126,6 +163,29 @@ class _Maps extends State<Maps> {
 
   }
 
+
+  // 1
+  void searchNearby(double latitude, double longitude) async {
+    setState(() {
+      markers.clear(); // 2
+    });
+    // 3
+    String url =
+        '$baseUrl?key=$_API_KEY&location=$latitude,$longitude&radius=10000&keyword=${widget.keyword}';
+    print(url);
+    // 4
+    final response = await http.get(url);
+    // 5
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      _handleResponse(data);
+    } else {
+      throw Exception('An error occurred getting places nearby');
+    }
+    setState(() {
+      searching = false; // 6
+    });
+  }
 
 
 

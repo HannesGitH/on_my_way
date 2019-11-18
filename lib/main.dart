@@ -77,7 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
-        drawer: standartDrawer(),
+      drawer: standartDrawer(),
       appBar: AppBar(
 
         // Here we take the value from the MyHomePage object that was created by
@@ -87,7 +87,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Maps(keyword),
       floatingActionButton: addRouteButton(
         onPressed: openAddRoute,
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),// This trailing comma makes auto-formatting nicer for build methods.
     );
   }
   void openAddRoute(){
