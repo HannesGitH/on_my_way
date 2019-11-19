@@ -62,42 +62,44 @@ class _Maps extends State<Maps> {
           _setStyle(controller);
           _controller.complete(controller);
         }
-    ),
-    floatingActionButton: Align(
-      alignment: Alignment.bottomRight,
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          FloatingActionButton(
-            child: Icon(Icons.home, color: Colors.white,),
-            onPressed: () {
-              /*markers=[];
-                markers.add(
-                  Marker(
-                    markerId: MarkerId("1!"),
-                    position: LatLng(0,0),
-                    infoWindow: InfoWindow(
-                        title: "Absolute Zero", snippet: "coords: 0,0"),
-                    onTap: () {},
-                  ),
-                );*/
-              searchNearby(latitude, longitude);
-            }
-          ),
-          SizedBox(width: 8.0),
-          FloatingActionButton(
-            child: Icon(Icons.my_location, color: Colors.white,),
-              onPressed: () {
-                mapController.animateCamera(
-                  CameraUpdate.newCameraPosition(
-                    CameraPosition(
-                        target: LatLng(latitude, longitude), zoom: 15.0,),
-                  ),
-                );
-            }),
-        ],
       ),
-    ),
+      floatingActionButton: Align(
+        alignment: Alignment.bottomRight,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            FloatingActionButton(
+              heroTag: "btn_SearchNeraby",
+              child: Icon(Icons.home, color: Colors.white,),
+              onPressed: () {
+                /*markers=[];
+                  markers.add(
+                    Marker(
+                      markerId: MarkerId("1!"),
+                      position: LatLng(0,0),
+                      infoWindow: InfoWindow(
+                          title: "Absolute Zero", snippet: "coords: 0,0"),
+                      onTap: () {},
+                    ),
+                  );*/
+                searchNearby(latitude, longitude);
+              }
+            ),
+            SizedBox(width: 8.0),
+            FloatingActionButton(
+              heroTag: "btn_goToMyLoc",
+              child: Icon(Icons.my_location, color: Colors.white,),
+                onPressed: () {
+                  mapController.animateCamera(
+                    CameraUpdate.newCameraPosition(
+                      CameraPosition(
+                          target: LatLng(latitude, longitude), zoom: 15.0,),
+                    ),
+                  );
+              }),
+          ],
+        ),
+      ),
     );
   }
 
@@ -109,7 +111,26 @@ class _Maps extends State<Maps> {
       });
       // success
     } else if (data['status'] == "OK") {
-
+      setState(() {
+        // 2
+        places = PlaceResponse.parseResults(data['results']);
+        // 3
+        for (int i = 0; i < places.length; i++) {
+          // 4
+          markers.add(
+            Marker(
+              markerId: MarkerId(places[i].placeId),
+              position: LatLng(places[i].geometry.location.lat,
+                  places[i].geometry.location.long),
+              infoWindow: InfoWindow(
+                  title: places[i].name, snippet: places[i].vicinity),
+              onTap: () {
+                //Todo new nav
+              },
+            ),
+          );
+        }
+      });
     } else {
       print(data);
     }
