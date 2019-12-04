@@ -36,7 +36,7 @@ dev_dependencies:
 flutter_icons:
     android: "launcher_icon"
     ios: true
-    image_path: "assets/omwicon.png"
+    image_path: "assets/omwiconr.png"
 
 
 
