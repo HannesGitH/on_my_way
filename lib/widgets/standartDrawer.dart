@@ -21,11 +21,19 @@ class standartDrawer extends StatelessWidget {
                 padding: EdgeInsets.zero,
                 children: <Widget>[
                   DrawerHeader(
-                    child: Text('On My Way',
-                        style: (TextStyle(
-                            color: Colors.white,
-                            fontSize: 20.2
-                        ))),
+                    child: FittedBox(
+                      fit: BoxFit.fitHeight,
+                      alignment: Alignment.topLeft,
+                      child: Column(
+                        children: <Widget>[
+                          FittedBox(
+                            alignment: Alignment.topLeft,
+                            child: Image.asset('assets/omwicon.png'),
+                            fit: BoxFit.fitWidth,
+                          ),
+                        ],
+                      ),
+                    ),
                     decoration: BoxDecoration(
                         color: Colors.teal[200],
                         gradient: LinearGradient(
