@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class MyListTile extends StatelessWidget {
-  MyListTile({@required this.onTap,@required this.icon,@required this.text,this.width=9.0,this.color=Colors.black});
+  MyListTile({this.onTap,@required this.icon,@required this.text,this.width=9.0,this.color=Colors.black});
 
   final GestureTapCallback onTap;
   final IconData icon;

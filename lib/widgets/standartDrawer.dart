@@ -3,10 +3,12 @@ import 'MyListTile.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'NotYetImplementedPage.dart';
+import 'package:on_my_way/settingsPage.dart';
 
 class standartDrawer extends StatelessWidget {
-  standartDrawer();
+  standartDrawer({this.current=0});
 
+  final current;
 
   @override
   Widget build(BuildContext context) {
@@ -46,8 +48,10 @@ class standartDrawer extends StatelessWidget {
                   MyListTile(
                     text: "Einstellungen",
                     icon: Icons.settings,
+                    color: current==1?Colors.teal:null,
                     onTap: () {
-                      notYetPage(context);
+                      if(current!=1)settingsP(context);
+                      else {Navigator.pop(context);}
                     },
                   ),
                   MyListTile(
@@ -81,7 +85,7 @@ class _Drawer_BottomSectionS extends State<Drawer_BottomSection> with SingleTick
   @override
   void initState() {
     super.initState();
-    controller= AnimationController(duration: Duration(milliseconds: 400),vsync: this);
+    controller= AnimationController(duration: Duration(milliseconds: 300),vsync: this);
   }
   @override
   Widget build(BuildContext context) {
@@ -118,12 +122,24 @@ class MoveUpAnim extends StatelessWidget{
                             Column(
                               children: <Widget>[
                                 Divider(),
-                                MyListTile(
-                                    icon:Icons.feedback,
-                                    text:'Feedback',
-                                    color: Colors.black54,
-                                    onTap: () {
-                                      notYetPage(context);}
+                                Uppable(
+                                  child: MyListTile(
+                                      icon:Icons.feedback,
+                                      text:'Feedback',
+                                      color: Colors.black54,
+                                      onTap: () {
+                                        //toggleFB();
+                                      }
+                                  ),
+                                  upchild:  Row(
+                                    children: <Widget>[
+                                      Icon(
+                                        Icons.mail,
+                                      ),
+                                      SizedBox(width: 9,),
+                                      Text("www.OnMyWay.OMW@gmail.com"),
+                                    ],
+                                  ),
                                 ),
                               ],),
                           ],
@@ -155,11 +171,18 @@ class MoveUpAnim extends StatelessWidget{
     );
   }
 
+
   _open(){
     controller.forward();
   }
   _close(){
     controller.reverse();
+  }
+
+  void toggleFB(){
+    if(isActive){
+      _close();
+    }
   }
 
   void toggleUs(){
@@ -171,6 +194,7 @@ class MoveUpAnim extends StatelessWidget{
     }
   }
   bool isActive=false;
+  bool isFB=false;
 
 
   Widget ourPag(){
@@ -210,7 +234,38 @@ class MoveUpAnim extends StatelessWidget{
       height: 1,
     );
   }
-
 }
 
+
+
+class Uppable extends StatefulWidget{
+  Uppable({@required this.child,@required this.upchild});
+  final Widget child;
+  final Widget upchild;
+
+  var isUp=false;
+  createState()=>_UppableS();
+}
+class _UppableS extends State<Uppable>{
+  bool isUp=false;
+  build(context){
+    if(isUp){
+      return Column(
+        children: <Widget>[
+          widget.upchild,
+          GestureDetector(
+            child: widget.child,
+            onTap: (){setState((){isUp=!isUp;});},
+          ),
+        ],
+      );
+    }
+    else{
+      return InkWell(
+        child: widget.child,
+        onTap: (){setState((){isUp=!isUp;});},
+      );
+    }
+  }
+}
 

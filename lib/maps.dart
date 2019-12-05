@@ -193,7 +193,7 @@ class _Maps extends State<Maps> {
     // 3
     String url =
         '$baseUrl?key=$_API_KEY&location=$latitude,$longitude&radius=10000&keyword=${widget.keyword}';
-    print(url);
+
     // 4
     final response = await http.get(url);
     // 5
