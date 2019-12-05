@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'NotYetImplementedPage.dart';
 import 'package:on_my_way/settingsPage.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class standartDrawer extends StatelessWidget {
   standartDrawer({this.current=0});
@@ -24,17 +25,9 @@ class standartDrawer extends StatelessWidget {
                 children: <Widget>[
                   DrawerHeader(
                     child: FittedBox(
-                      fit: BoxFit.fitHeight,
                       alignment: Alignment.topLeft,
-                      child: Column(
-                        children: <Widget>[
-                          FittedBox(
-                            alignment: Alignment.topLeft,
-                            child: Image.asset('assets/omwicon.png'),
-                            fit: BoxFit.fitWidth,
-                          ),
-                        ],
-                      ),
+                      child: Image.asset('assets/omwicon.png'),
+                      fit: BoxFit.fitHeight,
                     ),
                     decoration: BoxDecoration(
                         color: Colors.teal[200],
@@ -98,7 +91,7 @@ class MoveUpAnim extends StatelessWidget{
   MoveUpAnim({Key key, this.controller}):
         fortschritt= Tween<double>(
           begin: 0.0,
-          end: -80.0,
+          end: 1.0,
         ).animate(CurvedAnimation(
           parent: controller,
           curve: Curves.elasticOut,
@@ -110,62 +103,41 @@ class MoveUpAnim extends StatelessWidget{
     return AnimatedBuilder(
       animation: controller,
       builder: (context, builder){
-        return Container(
-            child: Align(
-                alignment: FractionalOffset.bottomCenter,
-                child: Column(
-                    children: <Widget>[
-                      Transform.translate(
-                        offset: Offset(0.0, fortschritt.value),
-                        child: Stack(
-                          children: <Widget>[
-                            Column(
-                              children: <Widget>[
-                                Divider(),
-                                Uppable(
-                                  child: MyListTile(
-                                      icon:Icons.feedback,
-                                      text:'Feedback',
-                                      color: Colors.black54,
-                                      onTap: () {
-                                        //toggleFB();
-                                      }
-                                  ),
-                                  upchild:  Row(
-                                    children: <Widget>[
-                                      Icon(
-                                        Icons.mail,
-                                      ),
-                                      SizedBox(width: 9,),
-                                      Text("www.OnMyWay.OMW@gmail.com"),
-                                    ],
-                                  ),
-                                ),
-                              ],),
-                          ],
+        return  Align(
+          alignment: FractionalOffset.bottomCenter,
+          child: Column(
+            children: <Widget>[
+              Transform.translate(
+                offset: Offset(0.0, fortschritt.value),
+                child: Stack(
+                  children: <Widget>[
+                    Column(
+                      children: <Widget>[
+                        Divider(),
+                        FeedBackTile(
+
                         ),
-                      ),
-                      Stack(
-                        alignment: Alignment.bottomLeft,
-                        children: <Widget>[
-                          ourPag(),
-                          Column(
-                            children: <Widget>[
-                              MyListTile(
-                                icon:Icons.supervised_user_circle,
-                                text:"Über uns",
-                                color: isActive?Colors.teal:Colors.black54,
-                                onTap: () {
-                                  toggleUs();
-                                },
-                              ),
-                            ]
-                          ),
-                        ],
-                      ),
-                    ],
+                      ],),
+                  ],
                 ),
-            ),
+              ),
+
+                  ourPag(),
+                  Column(
+                    children: <Widget>[
+                      MyListTile(
+                        icon:Icons.supervised_user_circle,
+                        text:"Über uns",
+                        color: isActive?Colors.teal:Colors.black54,
+                        onTap: () {
+                          toggleUs();
+                        },
+                      ),
+                    ]
+                  ),
+
+            ],
+          ),
         );
       },
     );
@@ -198,10 +170,10 @@ class MoveUpAnim extends StatelessWidget{
 
 
   Widget ourPag(){
-    if(fortschritt.value>-2){isActive=false;}else {isActive=true;}
+    if(fortschritt.value<0.02){isActive=false;}else {isActive=true;}
     if(isActive){
-      return Transform.translate(
-        offset: Offset(0.0, fortschritt.value),
+      return Transform.scale(
+        scale: fortschritt.value,
         child: Align(
           alignment: Alignment.centerLeft,
           child: Container(
@@ -238,34 +210,64 @@ class MoveUpAnim extends StatelessWidget{
 
 
 
-class Uppable extends StatefulWidget{
-  Uppable({@required this.child,@required this.upchild});
-  final Widget child;
-  final Widget upchild;
+class FeedBackTile extends StatefulWidget{
+  FeedBackTile();
 
-  var isUp=false;
-  createState()=>_UppableS();
+  createState()=>_FeedBackTileS();
 }
-class _UppableS extends State<Uppable>{
+class _FeedBackTileS extends State<FeedBackTile>{
   bool isUp=false;
   build(context){
-    if(isUp){
+    if(isUp) {
       return Column(
         children: <Widget>[
-          widget.upchild,
-          GestureDetector(
-            child: widget.child,
-            onTap: (){setState((){isUp=!isUp;});},
+          InkWell(
+            onTap: (){_launchURL();},
+            child: Row(
+              children: <Widget>[
+                SizedBox(width: 15,),
+                Icon(
+                  Icons.mail,
+                  color: Colors.black54,
+                ),
+                SizedBox(width: 9,),
+                Text("www.OnMyWay.OMW@gmail.com",style: TextStyle(color: Colors.blue,)),
+              ],
+            ),
           ),
+          MyListTile(
+              icon: Icons.feedback,
+              text: 'Feedback',
+              color: Colors.teal,
+              onTap: () {
+                setState(() {
+                  isUp = !isUp;
+                });
+              }
+          ),
+
         ],
       );
     }
     else{
-      return GestureDetector(
-        child: AbsorbPointer(child: widget.child),
-        onTap: (){setState((){isUp=!isUp;});},
+      return MyListTile(
+          icon:Icons.feedback,
+          text:'Feedback',
+          color: Colors.black54,
+          onTap: () {
+            setState((){isUp=!isUp;});
+          }
       );
     }
   }
 }
 
+
+_launchURL() async {
+  const url = 'mailto:www.OnMyWay.OMW@gmail.com?subject=Feedback&body=Hey%20OMW-Team,...';
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
+  }
+}
