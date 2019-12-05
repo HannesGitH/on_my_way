@@ -261,8 +261,8 @@ class _UppableS extends State<Uppable>{
       );
     }
     else{
-      return InkWell(
-        child: widget.child,
+      return GestureDetector(
+        child: AbsorbPointer(child: widget.child),
         onTap: (){setState((){isUp=!isUp;});},
       );
     }
