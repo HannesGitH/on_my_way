@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
 
         primarySwatch: Colors.teal,
       ),
-      home: MyHomePage(title: 'On My Way  -demo',),
+      home: MyHomePage(title: 'On My Way \u03B1',),
     );
   }
 }
