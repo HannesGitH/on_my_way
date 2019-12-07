@@ -1,30 +1,4 @@
 
-
-
-///////////////////////DEPRICATED FILE; CON BE REMOVED//
-
-/////////  //          //D
-//     //  //
-//     //  //
-//     //  //
-//     //  //
-//     //  //
-/////////  /////////
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -33,21 +7,22 @@ import 'data/place_response.dart';
 import 'data/result.dart';
 import 'data/error.dart';
 import 'package:location/location.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:mapbox_gl/mapbox_gl.dart';
 
-class Maps extends StatefulWidget {
+
+class BMaps extends StatefulWidget {
   final String keyword;
-  Maps(this.keyword);
+  BMaps(this.keyword);
 
 
 
   @override
-  State<Maps> createState() {
-    return _Maps();
+  State<BMaps> createState() {
+    return _BMaps();
   }
 }
 
-class _Maps extends State<Maps> {
+class _BMaps extends State<BMaps> {
 
   static const String _API_KEY = 'AIzaSyDL-3Yf20flTdmx6OOJLb2eIa9qc43LXNU';
 
@@ -63,9 +38,9 @@ class _Maps extends State<Maps> {
   bool searching = true;
   String keyword;
 
-  Completer<GoogleMapController> _controller = Completer();
+  Completer<MapboxMapController> _controller = Completer();
 
-  List<Marker> markers=<Marker>[];
+  //List<Marker> markers=<Marker>[];
 
   static final CameraPosition _myLoc=
   CameraPosition(
@@ -77,18 +52,18 @@ class _Maps extends State<Maps> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: GoogleMap(
-        compassEnabled: true,
-        myLocationButtonEnabled: false,
-        myLocationEnabled: true,
-        initialCameraPosition: _myLoc,
-        mapType: MapType.normal,
-        markers: Set<Marker>.of(markers),
-        onMapCreated: (GoogleMapController controller){
-          mapController=controller;
-          _setStyle(controller);
-          _controller.complete(controller);
-        }
+      body: MapboxMap(
+          compassEnabled: true,
+          //myLocationButtonEnabled: false,
+          myLocationEnabled: true,
+          initialCameraPosition: _myLoc,
+          //mapType: MapType.normal,
+          //markers: Set<Marker>.of(markers),
+          onMapCreated: (MapboxMapController controller){
+            mapController=controller;
+            _setStyle(controller);
+            _controller.complete(controller);
+          }
       ),
       floatingActionButton: Align(
         alignment: Alignment.bottomRight,
@@ -96,34 +71,25 @@ class _Maps extends State<Maps> {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             FloatingActionButton(
-              heroTag: "btn_SearchNeraby",
-              child: Icon(Icons.home, color: Colors.white,),
-              onPressed: () {
-                /*markers=[];
-                  markers.add(
-                    Marker(
-                      markerId: MarkerId("1!"),
-                      position: LatLng(0,0),
-                      infoWindow: InfoWindow(
-                          title: "Absolute Zero", snippet: "coords: 0,0"),
-                      onTap: () {},
-                    ),
-                  );*/
-                searchNearby(latitude, longitude);
-              }
+                heroTag: "btn_SearchNeraby",
+                child: Icon(Icons.home, color: Colors.white,),
+                onPressed: () {
+
+                  searchNearby(latitude, longitude);
+                }
             ),
             SizedBox(width: 8.0),
             FloatingActionButton(
-              heroTag: "btn_goToMyLoc",
-              child: Icon(Icons.my_location, color: Colors.white,),
+                heroTag: "btn_goToMyLoc",
+                child: Icon(Icons.my_location, color: Colors.white,),
                 onPressed: () {
                   mapController.animateCamera(
                     CameraUpdate.newCameraPosition(
                       CameraPosition(
-                          target: LatLng(latitude, longitude), zoom: 15.0,),
+                        target: LatLng(latitude, longitude), zoom: 15.0,),
                     ),
                   );
-              }),
+                }),
           ],
         ),
       ),
@@ -144,7 +110,7 @@ class _Maps extends State<Maps> {
         // 3
         for (int i = 0; i < places.length; i++) {
           // 4
-          markers.add(
+          /*markers.add(
             Marker(
               markerId: MarkerId(places[i].placeId),
               position: LatLng(places[i].geometry.location.lat,
@@ -155,7 +121,7 @@ class _Maps extends State<Maps> {
                 //Todo new nav
               },
             ),
-          );
+          );*/
         }
       });
     } else {
@@ -163,18 +129,18 @@ class _Maps extends State<Maps> {
     }
   }
 
-  void _setStyle(GoogleMapController controller) async {
+  void _setStyle(MapboxMapController controller) async {
 
     print("style set");
 
     String value = await DefaultAssetBundle.of(context)
         .loadString('assets/maps_style.json');
-    controller.setMapStyle(value);
+    //controller.setMapStyle(value);
   }
 
 
 
-  GoogleMapController mapController;
+  MapboxMapController mapController;
 
 
 
@@ -190,21 +156,12 @@ class _Maps extends State<Maps> {
       });
     },
         onError: (error){
-            //somethin went wrong with position aquiring possibly accesss denied
+          //somethin went wrong with position aquiring possibly accesss denied
         });
 
     location.onLocationChanged().listen((LocationData result) {
       setState(() {
-        /*print("alt: $longitude");
-        latitude = result.latitude;
-        longitude = result.longitude;
-        print(longitude);
-        mapController.animateCamera(
-          CameraUpdate.newCameraPosition(
-            CameraPosition(
-                target: LatLng(latitude, longitude), zoom: 20.0),
-          ),
-        )*/
+
       });
     });
 
@@ -215,7 +172,7 @@ class _Maps extends State<Maps> {
   // 1
   void searchNearby(double latitude, double longitude) async {
     setState(() {
-      markers.clear(); // 2
+      //markers.clear(); // 2
     });
     // 3
     String url =
@@ -234,12 +191,6 @@ class _Maps extends State<Maps> {
       searching = false; // 6
     });
   }
-
-
-
-
-
-
 
 }
 

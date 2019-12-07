@@ -4,6 +4,10 @@
 <dict>
     <key>io.flutter.embedded_views_preview</key>
     <string>YES</string>
+    <key>io.flutter.embedded_views_preview</key>
+    <true/>
+    <key>MGLMapboxAccessToken</key>
+    <string>YOUR_TOKEN_HERE</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>

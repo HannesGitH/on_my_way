@@ -15,6 +15,7 @@
         <meta-data android:name="com.google.android.geo.API_KEY"
         android:value="AIzaSyDL-3Yf20flTdmx6OOJLb2eIa9qc43LXNU"
         />
+        <meta-data android:name="com.mapbox.token" android:value="pk.eyJ1IjoiaGFubmVzb213IiwiYSI6ImNrM3NlbXc4czA0N3Yzbm8xcTF2azdxMzUifQ.qgd9llxTGr6HvXQwcz99Cg" />
     <activity
         android:name=".MainActivity"
         android:launchMode="singleTop"

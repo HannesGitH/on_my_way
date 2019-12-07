@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:on_my_way/MapsBox.dart';
 import 'package:on_my_way/widgets/addRouteButton.dart';
 import 'maps.dart';
 import 'package:on_my_way/widgets/standartDrawer.dart';
@@ -84,7 +85,7 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: Maps(keyword),
+      body: BMaps(keyword),//Maps(keyword),//todo ma man skr chose map
       floatingActionButton: addRouteButton(
         onPressed: openAddRoute,
       ),// This trailing comma makes auto-formatting nicer for build methods.
