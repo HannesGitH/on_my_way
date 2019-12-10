@@ -1,4 +1,6 @@
 
+import 'package:on_my_way/res/colors.dart';
+
 import 'MyListTile.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -30,9 +32,9 @@ class standartDrawer extends StatelessWidget {
                       fit: BoxFit.fitHeight,
                     ),
                     decoration: BoxDecoration(
-                        color: Colors.teal[200],
+                        color: cMAIN_HELL,
                         gradient: LinearGradient(
-                          colors: [Colors.teal, Colors.teal[100]],
+                          colors: [cMAIN, cMAIN_HELL],
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
                         )
@@ -41,7 +43,7 @@ class standartDrawer extends StatelessWidget {
                   MyListTile(
                     text: "Einstellungen",
                     icon: Icons.settings,
-                    color: current==1?Colors.teal:null,
+                    color: current==1?cMAIN:null,
                     onTap: () {
                       if(current!=1)settingsP(context);
                       else {Navigator.pop(context);}
@@ -128,7 +130,7 @@ class MoveUpAnim extends StatelessWidget{
                       MyListTile(
                         icon:Icons.supervised_user_circle,
                         text:"Über uns",
-                        color: isActive?Colors.teal:Colors.black54,
+                        color: isActive?cMAIN:cGREY,
                         onTap: () {
                           toggleUs();
                         },
@@ -228,17 +230,17 @@ class _FeedBackTileS extends State<FeedBackTile>{
                 SizedBox(width: 15,),
                 Icon(
                   Icons.mail,
-                  color: Colors.black54,
+                  color: cGREY,
                 ),
                 SizedBox(width: 9,),
-                Text("www.OnMyWay.OMW@gmail.com",style: TextStyle(color: Colors.blue,)),
+                Text("www.OnMyWay.OMW@gmail.com",style: TextStyle(color: cLINK,)),
               ],
             ),
           ),
           MyListTile(
               icon: Icons.feedback,
               text: 'Feedback',
-              color: Colors.teal,
+              color: cMAIN,
               onTap: () {
                 setState(() {
                   isUp = !isUp;
@@ -253,7 +255,7 @@ class _FeedBackTileS extends State<FeedBackTile>{
       return MyListTile(
           icon:Icons.feedback,
           text:'Feedback',
-          color: Colors.black54,
+          color: cGREY,
           onTap: () {
             setState((){isUp=!isUp;});
           }

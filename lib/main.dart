@@ -6,6 +6,7 @@ import 'package:on_my_way/widgets/standartDrawer.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'search_filter.dart';
 import 'widgets/NotYetImplementedPage.dart';
+import 'res/colors.dart';
 
 void main() => runApp(MyApp());
 
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
       title: 'On My Way (\u03B1) ',
       theme: ThemeData(
 
-        primarySwatch: Colors.teal,
+        primarySwatch: cMAIN,
       ),
       home: MyHomePage(title: 'On My Way \u03B1lpha',),
     );

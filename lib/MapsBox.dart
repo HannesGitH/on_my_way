@@ -8,6 +8,7 @@ import 'data/result.dart';
 import 'data/error.dart';
 import 'package:location/location.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
+import 'res/colors.dart';
 
 
 class BMaps extends StatefulWidget {
@@ -72,7 +73,7 @@ class _BMaps extends State<BMaps> {
           children: <Widget>[
             FloatingActionButton(
                 heroTag: "btn_SearchNeraby",
-                child: Icon(Icons.home, color: Colors.white,),
+                child: Icon(Icons.home, color: cWHITE,),
                 onPressed: () {
 
                   searchNearby(latitude, longitude);
@@ -81,7 +82,7 @@ class _BMaps extends State<BMaps> {
             SizedBox(width: 8.0),
             FloatingActionButton(
                 heroTag: "btn_goToMyLoc",
-                child: Icon(Icons.my_location, color: Colors.white,),
+                child: Icon(Icons.my_location, color: cWHITE,),
                 onPressed: () {
                   mapController.animateCamera(
                     CameraUpdate.newCameraPosition(

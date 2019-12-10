@@ -19,13 +19,50 @@ class settingsPage extends StatelessWidget {
 
         ],
       ),
-      body: Center(
-        child: Text("congrats, aber hier ist noch nichts"),
+      body: Align(
+        alignment: FractionalOffset.bottomCenter,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: <Widget>[
+            Einstellungen(),
+            SizedBox(height: 100,),
+            Text("mehr Einstellungen werden folgen"),
+          ],
+        ),
       ),
     );
   }
 
-
+Widget Einstellungen(){
+    return Container(
+      child: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Text("ah"),
+                Text("ah"),
+                Text("ah"),
+              ],
+            ),
+            Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Text("ah"),
+                Text("ah"),
+                Text("ah"),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+}
 
 
 

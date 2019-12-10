@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:on_my_way/res/colors.dart';
 
 class addRouteButton extends StatelessWidget{
   addRouteButton({@required this.onPressed});
@@ -12,20 +13,20 @@ class addRouteButton extends StatelessWidget{
       child: RotatedBox(
         quarterTurns: 3,
         child: RawMaterialButton(
-          fillColor: Colors.teal,
-            splashColor: Colors.tealAccent,
+          fillColor: cMAIN,
+            splashColor: cMAIN_HELL,
             child: Padding(padding: const EdgeInsets.symmetric(
               vertical: 8.0,
               horizontal: 20.0,
               ),
               child:Row(
                 mainAxisSize: MainAxisSize.min,
-                children: const <Widget>[
+                children: <Widget>[
                   RotatedBox(
                     quarterTurns: 1,
                     child: Icon(
                       Icons.loupe, //add location , draft , control point duplicate , add circle, loupe,markunread mailbox ,work
-                      color: Colors.white,
+                      color: cWHITE,
                     ),
                   ),
                   SizedBox(
@@ -33,14 +34,14 @@ class addRouteButton extends StatelessWidget{
                   ),
                   Text("ADD PACKET",
                     style: TextStyle(
-                      color: Colors.white,
+                      color: cWHITE,
                     ),
                   ),
                 ],
               ),
             ),
             onPressed: onPressed,
-          shape: const StadiumBorder(),
+          shape: StadiumBorder(),
         ),
       ),
     );
