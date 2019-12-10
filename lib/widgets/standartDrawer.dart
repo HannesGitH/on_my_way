@@ -214,9 +214,9 @@ class MoveUpAnim extends StatelessWidget{
 
 class FeedBackTile extends StatefulWidget{
   FeedBackTile();
-
   createState()=>_FeedBackTileS();
 }
+
 class _FeedBackTileS extends State<FeedBackTile>{
   bool isUp=false;
   build(context){

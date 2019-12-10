@@ -53,17 +53,9 @@ List<Widget> Einstellungen(){
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-          Column(
-            children: <Widget>[
-              Text("MapBox",style: TextStyle(color: cMAIN_DARK),),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Image.asset('assets/omwicon.png'),
-              ),
-            ],
-          ),
-          Text("Google",style: TextStyle(color: cMAIN_DARK),),
-          Text("OpenSM",style: TextStyle(color: cMAIN_DARK),),
+          sMapchoser(name:"MapBox", imagename: "mapbox.png"),
+          sMapchoser(name:"Google", imagename: "google.png"),
+          sMapchoser(name:"OpenSM", imagename: "opensm.png"),
         ],
       ),
 
@@ -102,6 +94,37 @@ Widget sHeadline({icon=Icons.insert_emoticon,text="headline",color=cBLACK}){
 Widget sToggleLine(){
 }
 
+/*class sMapchoser extends statefulWidget{
+
+    sMapchoser({name="mapX",imagename="omwicon.png"});
+    createState()=> _sMapchoserS();
+}*/
+
+Widget sMapchoser({name="mapX",imagename="omwicon.png"}){
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Text(name,style: TextStyle(color: cMAIN_DARK),),
+        SizedBox(height: 7,),
+        GestureDetector(
+          onTap: () {
+            //todo
+          },
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(25),
+            child: Container(
+              width:60,
+              height:60,
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Image.asset('assets/'+imagename),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+}
 
 
 }

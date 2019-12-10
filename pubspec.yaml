@@ -60,6 +60,9 @@ flutter:
   assets:
     - assets/maps_style.json
     - assets/omwicon.png
+    - assets/mapbox.png
+    - assets/google.png
+    - assets/opensm.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
