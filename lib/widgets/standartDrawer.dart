@@ -197,7 +197,7 @@ class MoveUpAnim extends StatelessWidget{
                 Text(" Linus Ostermayer",textAlign: TextAlign.left,),
                 Text(" Esther Helmi",textAlign: TextAlign.left,),
                 Text(" Cora Fritz",textAlign: TextAlign.left,),
-                Text(" Thea Doerge",textAlign: TextAlign.left,),
+                Text(" Der Rest",textAlign: TextAlign.left,),
               ],
             ),
           ),
