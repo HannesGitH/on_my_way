@@ -53,7 +53,15 @@ List<Widget> Einstellungen(){
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-          Text("MapBox",style: TextStyle(color: cMAIN_DARK),),
+          Column(
+            children: <Widget>[
+              Text("MapBox",style: TextStyle(color: cMAIN_DARK),),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: Image.asset('assets/omwicon.png'),
+              ),
+            ],
+          ),
           Text("Google",style: TextStyle(color: cMAIN_DARK),),
           Text("OpenSM",style: TextStyle(color: cMAIN_DARK),),
         ],
