@@ -184,7 +184,7 @@ class _sMapchooserS extends State<sMapchooser>{
 
   reado (key) {
     rread(prefs){
-      return prefs.getInt(key) ?? 0;
+      return (prefs.getInt(key) ?? 0);
     }
 
     if(widget.prefs==null){
