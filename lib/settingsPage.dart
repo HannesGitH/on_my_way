@@ -188,9 +188,9 @@ class _sMapchooserS extends State<sMapchooser>{
     }
 
     if(widget.prefs==null){
-      SharedPreferences.getInstance().then((instance){rread(instance);});
+      SharedPreferences.getInstance().then((instance){return rread(instance);});
     }else{
-      rread(widget.prefs);
+      return rread(widget.prefs);
     }
   }
 
@@ -200,9 +200,9 @@ class _sMapchooserS extends State<sMapchooser>{
     }
 
     if(widget.prefs==null){
-      SharedPreferences.getInstance().then((instance){rread(instance);});
+      SharedPreferences.getInstance().then((instance){return rread(instance);});
     }else{
-      rread(widget.prefs);
+      return rread(widget.prefs);
     }
   }
 
