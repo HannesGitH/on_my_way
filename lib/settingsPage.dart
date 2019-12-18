@@ -50,15 +50,7 @@ class settingsPage extends StatelessWidget {
 List<Widget> Einstellungen(){
     return <Widget>[
       sHeadline(color: cMAIN, text: "Map Anbieter", icon: Icons.map,),
-      Row(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          sMapchooser(name:"MapBox", imagename: "mapbox.png"),
-          sMapchooser(name:"Google", imagename: "google.png"),
-          sMapchooser(name:"OpenSM", imagename: "opensm.png"),
-        ],
-      ),
+      MapsSettings(),
 
 
       ];
@@ -160,7 +152,12 @@ class _sMapchooserS extends State<sMapchooser>{
               },
               onTapUp: (pointer){
                 setState(() {
-                  write("mapProv",1); //todo nicht eins sonder halt ja
+                  write("mapProv",chosen?0:1); //todo nicht eins sonder halt ja
+                  down = false;
+                });
+              },
+              onTapCancel: (){
+                setState(() {
                   down = false;
                 });
               },
@@ -207,5 +204,66 @@ class _sMapchooserS extends State<sMapchooser>{
   }
 
 
+
+}
+
+class MapsSettings extends StatefulWidget{
+  MapsSettings();
+  createState()=> _MapsSettingsS();
+}
+
+class _MapsSettingsS extends State<MapsSettings>{
+
+  var prefs;
+
+
+  reado (key) {
+    rread(prefs){
+      return (prefs.getInt(key) ?? 0);
+    }
+
+    if(prefs==null){
+      SharedPreferences.getInstance().then((instance){
+        prefs=instance;
+        setState(() {
+
+        });
+      });
+    }else{
+      setState(() {
+        prefs.getInt(key) ?? 0)
+      });
+
+    }
+  }
+
+  write (key,value) {
+    rread(prefs){
+      prefs.setInt(key,value);
+    }
+
+    if(widget.prefs==null){
+      SharedPreferences.getInstance().then((instance){return rread(instance);});
+    }else{
+      return rread(widget.prefs);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    SharedPreferences.getInstance().then((instance){return rread(instance);});
+    SharedPreferences.getInstance().then((instance){
+
+    });
+    return Row(
+      mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: <Widget>[
+        sMapchooser(name:"MapBox", imagename: "mapbox.png"),
+        sMapchooser(name:"Google", imagename: "google.png"),
+        sMapchooser(name:"OpenSM", imagename: "opensm.png"),
+      ],
+    );
+  }
 
 }
