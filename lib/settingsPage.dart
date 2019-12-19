@@ -9,6 +9,7 @@ class settingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+
     return Scaffold(
       endDrawer: standartDrawer(current: 1,),
       body: CustomScrollView(
@@ -48,10 +49,10 @@ class settingsPage extends StatelessWidget {
   }
 
 List<Widget> Einstellungen(){
+    MapsSettings mappps=new MapsSettings();
     return <Widget>[
       sHeadline(color: cMAIN, text: "Map Anbieter", icon: Icons.map,),
-      MapsSettings(),
-
+      mappps,
 
       ];
 }
@@ -102,9 +103,13 @@ void settingsP(context){
 
 
 class sMapchooser extends StatefulWidget{
-  sMapchooser({this.name="mapX",this.imagename="omwicon.png"});
+  sMapchooser({this.name="mapX",this.imagename="omwicon.png",this.chosenb=false,this.onset});
 
   var prefs=null;
+
+  bool chosenb;
+
+  Function onset;
 
   String name;
   String imagename;
@@ -114,18 +119,12 @@ class sMapchooser extends StatefulWidget{
 class _sMapchooserS extends State<sMapchooser>{
 
   bool down=false;
-  bool chosen= false;
 
   TapDownDetails tapDownDetails;
 
 
   @override
   Widget build(BuildContext context) {
-
-    SharedPreferences.getInstance().then((instance){widget.prefs=instance;});
-
-    print(reado("mapProv"));
-    chosen=(reado("mapProv")==1);//todo nicht eins sonder halt ja
 
     return sMapchoser(name:widget.name,imagename:widget.imagename);
   }
@@ -135,7 +134,7 @@ class _sMapchooserS extends State<sMapchooser>{
     return ClipRRect(
       borderRadius: BorderRadius.circular(15),
       child: Container(
-        color: chosen?cMAIN_HELL:cWHITE,
+        color: widget.chosenb?cMAIN_HELL:cWHITE,
         width: 90,
         height:100,
         child: Column(
@@ -152,8 +151,9 @@ class _sMapchooserS extends State<sMapchooser>{
               },
               onTapUp: (pointer){
                 setState(() {
-                  write("mapProv",chosen?0:1); //todo nicht eins sonder halt ja
                   down = false;
+                  widget.onset();
+
                 });
               },
               onTapCancel: (){
@@ -178,92 +178,113 @@ class _sMapchooserS extends State<sMapchooser>{
       ),
     );
   }
-
-  reado (key) {
-    rread(prefs){
-      return (prefs.getInt(key) ?? 0);
-    }
-
-    if(widget.prefs==null){
-      SharedPreferences.getInstance().then((instance){return rread(instance);});
-    }else{
-      return rread(widget.prefs);
-    }
-  }
-
-  write (key,value) {
-    rread(prefs){
-      prefs.setInt(key,value);
-    }
-
-    if(widget.prefs==null){
-      SharedPreferences.getInstance().then((instance){return rread(instance);});
-    }else{
-      return rread(widget.prefs);
-    }
-  }
-
-
-
 }
 
 class MapsSettings extends StatefulWidget{
   MapsSettings();
-  createState()=> _MapsSettingsS();
+
+
+  void _showDialogGoogle(context) {
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: Text("Google Maps? Wirklich?"),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text("Google Maps macht es uns leider schwer, denn es ist ziemlich teuer."),
+              SizedBox(height: 10),
+              Text("Deshalb empfehlen wir die kostengünstigere variante MapBox"),
+              SizedBox(height: 10),
+              Text("Sollten Sie tatsächlich auf googles Dienste bestehen, haben sie folgende 3 Optionen:"),
+              SizedBox(height: 10),
+            ],
+          ),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            FlatButton(
+              child: Text("Close"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+
+
+
+  @override
+  State<MapsSettings> createState() {
+    _MapsSettingsS a =new _MapsSettingsS();
+    a.reado();
+    return a;
+  }
 }
 
 class _MapsSettingsS extends State<MapsSettings>{
 
   var prefs;
+  var current=1;
 
-
-  reado (key) {
-    rread(prefs){
-      return (prefs.getInt(key) ?? 0);
-    }
-
+  reado () {
+    var key="MapProv";
     if(prefs==null){
       SharedPreferences.getInstance().then((instance){
         prefs=instance;
         setState(() {
-
+          current= prefs.getInt(key) ?? 0;
         });
       });
     }else{
       setState(() {
-        prefs.getInt(key) ?? 0)
+        current=prefs.getInt(key) ?? 0;
       });
-
     }
   }
 
-  write (key,value) {
-    rread(prefs){
-      prefs.setInt(key,value);
-    }
-
-    if(widget.prefs==null){
-      SharedPreferences.getInstance().then((instance){return rread(instance);});
+  writeo (curr) {
+    var key="MapProv";
+    if(prefs==null){
+      SharedPreferences.getInstance().then((instance){
+        prefs=instance;
+        setState(() {
+          current=curr;
+          prefs.setInt(key,curr);
+        });
+      });
     }else{
-      return rread(widget.prefs);
+      prefs.setInt(key,curr);
+      setState(() {
+        current=curr;
+      });
     }
   }
+  write1(){writeo(1);}
+  write2(){widget._showDialogGoogle(context);writeo(2);}
+  write3(){writeo(3);}
 
   @override
   Widget build(BuildContext context) {
-    SharedPreferences.getInstance().then((instance){return rread(instance);});
-    SharedPreferences.getInstance().then((instance){
+    //reado(); //todo nicht in build weil kacke (build in dauerschleife weil reso build auslößt)
 
-    });
     return Row(
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
-        sMapchooser(name:"MapBox", imagename: "mapbox.png"),
-        sMapchooser(name:"Google", imagename: "google.png"),
-        sMapchooser(name:"OpenSM", imagename: "opensm.png"),
+        sMapchooser(name:"MapBox", imagename: "mapbox.png", chosenb: (current==1),onset: write1 ,),
+        sMapchooser(name:"Google", imagename: "google.png", chosenb: (current==2),onset: write2 ,),
+        sMapchooser(name:"OpenSM", imagename: "opensm.png", chosenb: (current==3),onset: write3 ,),
       ],
     );
   }
 
 }
+

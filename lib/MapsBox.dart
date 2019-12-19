@@ -9,21 +9,44 @@ import 'data/error.dart';
 import 'package:location/location.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 import 'res/colors.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class BMaps extends StatefulWidget {
+
+
+
   final String keyword;
   BMaps(this.keyword);
 
-
-
   @override
   State<BMaps> createState() {
-    return _BMaps();
+    _BMaps a = _BMaps();
+    a.reado();
+    return a;
   }
 }
 
 class _BMaps extends State<BMaps> {
+
+  var current=1;
+  var prefs;
+
+  reado () {
+    var key="MapProv";
+    if(prefs==null){
+      SharedPreferences.getInstance().then((instance){
+        prefs=instance;
+        setState(() {
+          current= prefs.getInt(key) ?? 0;
+        });
+      });
+    }else{
+      setState(() {
+        current=prefs.getInt(key) ?? 0;
+      });
+    }
+  }
 
   static const String _API_KEY = 'AIzaSyDL-3Yf20flTdmx6OOJLb2eIa9qc43LXNU';
 
@@ -52,6 +75,7 @@ class _BMaps extends State<BMaps> {
 
   @override
   Widget build(BuildContext context) {
+    reado(); /////ziemlich unschön wegen dauerschleife.. besser wär iwas anderes deshalb teigtl t o d o aber geht iwie doch weil nur bei dirty state reload ausgelö´t wird
     return Scaffold(
       body: MapboxMap(
           compassEnabled: true,
@@ -73,7 +97,7 @@ class _BMaps extends State<BMaps> {
           children: <Widget>[
             FloatingActionButton(
                 heroTag: "btn_SearchNeraby",
-                child: Icon(Icons.home, color: cWHITE,),
+                child: Icon(Icons.home, color: (current==1)?cWHITE:cACCENT,), //testpupose
                 onPressed: () {
 
                   searchNearby(latitude, longitude);
