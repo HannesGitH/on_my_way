@@ -120,7 +120,6 @@ class _BMaps extends State<BMaps> {
                 heroTag: "btn_SearchNeraby",
                 child: Icon(Icons.home, color: (current==1)?cWHITE:cACCENT,), //testpupose
                 onPressed: () {
-
                   searchNearby(latitude, longitude);
                 }
             ),
@@ -129,12 +128,24 @@ class _BMaps extends State<BMaps> {
                 heroTag: "btn_goToMyLoc",
                 child: Icon(Icons.my_location, color: cWHITE,),
                 onPressed: () {
-                  mapController.animateCamera(
-                    CameraUpdate.newCameraPosition(
-                      CameraPosition(
-                        target: LatLng(latitude, longitude), zoom: 15.0,),
-                    ),
-                  );
+                  switch(current){
+                    case 1:
+                      mapController.animateCamera(
+                        CameraUpdate.newCameraPosition(
+                          CameraPosition(
+                            target: LatLng(latitude, longitude), zoom: 15.0,),
+                        ),
+                      );break;
+
+                    case 2:
+                      gmmapController.animateCamera(
+                        gm.CameraUpdate.newCameraPosition(
+                          gm.CameraPosition(
+                            target: gm.LatLng(latitude, longitude), zoom: 15.0,),
+                        ),
+                      );break;
+                  }
+
                 }),
           ],
         ),
