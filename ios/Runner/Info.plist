@@ -8,6 +8,8 @@
     <true/>
     <key>MGLMapboxAccessToken</key>
     <string>YOUR_TOKEN_HERE</string>
+    <key>GADApplicationIdentifier</key>
+    <string>MYADMOBIDHERE</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>

@@ -38,12 +38,12 @@ class _BMaps extends State<BMaps> {
       SharedPreferences.getInstance().then((instance){
         prefs=instance;
         setState(() {
-          current= prefs.getInt(key) ?? 0;
+          current= prefs.getInt(key) ?? 1;
         });
       });
     }else{
       setState(() {
-        current=prefs.getInt(key) ?? 0;
+        current=prefs.getInt(key) ?? 1;
       });
     }
   }

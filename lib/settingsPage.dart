@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:on_my_way/res/colors.dart';
 import 'widgets/standartDrawer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_admob/firebase_admob.dart';
+
 
 class settingsPage extends StatelessWidget {
   settingsPage();
 
   @override
   Widget build(BuildContext context) {
-
 
     return Scaffold(
       endDrawer: standartDrawer(current: 1,),
@@ -53,7 +54,6 @@ List<Widget> Einstellungen(){
     return <Widget>[
       sHeadline(color: cMAIN, text: "Map Anbieter", icon: Icons.map,),
       mappps,
-
       ];
 }
 
@@ -200,14 +200,37 @@ class MapsSettings extends StatefulWidget{
               SizedBox(height: 10),
               Text("Deshalb empfehlen wir die kostengünstigere variante MapBox"),
               SizedBox(height: 10),
-              Text("Sollten Sie tatsächlich auf googles Dienste bestehen, haben sie folgende 3 Optionen:"),
-              SizedBox(height: 10),
+              Text("Sollten Sie tatsächlich auf googles Dienste bestehen, haben sie folgende 4 Optionen:"),
+              SizedBox(height: 15),
+              Possibility("Standart","Sie bekommen ab erster Lieferung etwas weniger Belohnung, bis dahin sehen Sie Werbung.."),
+              Possibility("Kaufen","Einmalig 2€, danach nie Werbung oder versteckte Kosten"),
+              Possibility("Direkt","Sie zahlen direkt die Kosten die ihre Anfragen kosten"),
+              Possibility("Werbung","naja es gibt halt einen kleinen Werbebanner.."),
+
             ],
           ),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
             FlatButton(
-              child: Text("Close"),
+              child: Text("Standart"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            FlatButton(
+              child: Text("Kaufen"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            FlatButton(
+              child: Text("Direkt"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            FlatButton(
+              child: Text("Werbung"),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -215,6 +238,16 @@ class MapsSettings extends StatefulWidget{
           ],
         );
       },
+    );
+  }
+  Widget Possibility(head,discription){
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(head, style: TextStyle(color:cMAIN, fontWeight: FontWeight.w600),),
+        Text(discription),
+        SizedBox(height: 7,)
+      ],
     );
   }
 
@@ -240,12 +273,12 @@ class _MapsSettingsS extends State<MapsSettings>{
       SharedPreferences.getInstance().then((instance){
         prefs=instance;
         setState(() {
-          current= prefs.getInt(key) ?? 0;
+          current= prefs.getInt(key) ?? 1;
         });
       });
     }else{
       setState(() {
-        current=prefs.getInt(key) ?? 0;
+        current=prefs.getInt(key) ?? 1;
       });
     }
   }
