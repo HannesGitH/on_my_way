@@ -8,6 +8,7 @@ class NotYetImplementedPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomSheet: SizedBox(height:100,),
       appBar: AppBar(
         title: Text("NOT YET IMPLEMENTED"),
         centerTitle: true,

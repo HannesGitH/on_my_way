@@ -17,7 +17,7 @@
         />
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-3940256099942544/6300978111" /><!--dis DA SAMPLE MUSS NOCH RICHTIG -->
+            android:value="ca-app-pub-3059560602817026~8825208552" /><!--dis DA SAMPLE MUSS NOCH RICHTIG -->
         <meta-data android:name="com.mapbox.token" android:value="pk.eyJ1IjoiaGFubmVzb213IiwiYSI6ImNrM3NlbXc4czA0N3Yzbm8xcTF2azdxMzUifQ.qgd9llxTGr6HvXQwcz99Cg" />
     <activity
         android:name=".MainActivity"

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:on_my_way/res/colors.dart';
+import 'package:on_my_way/widgets/NotYetImplementedPage.dart';
 import 'widgets/standartDrawer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_admob/firebase_admob.dart';
@@ -214,19 +215,19 @@ class MapsSettings extends StatefulWidget{
             FlatButton(
               child: Text("Standart"),
               onPressed: () {
-                Navigator.of(context).pop();
+                notYetPage(context);
               },
             ),
             FlatButton(
               child: Text("Kaufen"),
               onPressed: () {
-                Navigator.of(context).pop();
+                notYetPage(context);
               },
             ),
             FlatButton(
               child: Text("Direkt"),
               onPressed: () {
-                Navigator.of(context).pop();
+                notYetPage(context);
               },
             ),
             FlatButton(
@@ -306,7 +307,6 @@ class _MapsSettingsS extends State<MapsSettings>{
 
   @override
   Widget build(BuildContext context) {
-    //reado(); //todo nicht in build weil kacke (build in dauerschleife weil reso build auslößt)
 
     return Row(
       mainAxisSize: MainAxisSize.max,

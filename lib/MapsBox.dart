@@ -10,6 +10,9 @@ import 'package:location/location.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 import 'res/colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_admob/firebase_admob.dart';
+import 'package:admob_flutter/admob_flutter.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart' as gm;
 
 
 class BMaps extends StatefulWidget {
@@ -22,6 +25,7 @@ class BMaps extends StatefulWidget {
   @override
   State<BMaps> createState() {
     _BMaps a = _BMaps();
+    Admob.initialize("ca-app-pub-3059560602817026~8825208552");
     a.reado();
     return a;
   }
@@ -63,6 +67,7 @@ class _BMaps extends State<BMaps> {
   String keyword;
 
   Completer<MapboxMapController> _controller = Completer();
+  Completer<gm.GoogleMapController> _gmcontroller = Completer();
 
   //List<Marker> markers=<Marker>[];
 
@@ -72,24 +77,40 @@ class _BMaps extends State<BMaps> {
     zoom: 12,
     tilt: 2,
   );
+  static final gm.CameraPosition _gmmyLoc=
+  gm.CameraPosition(
+    target: gm.LatLng(latitude, longitude),
+    zoom: 12,
+    tilt: 2,
+  );
 
   @override
   Widget build(BuildContext context) {
+    //FirebaseAdMob.instance.initialize(appId: "ca-app-pub-3059560602817026~8825208552");
+
+
     reado(); /////ziemlich unschön wegen dauerschleife.. besser wär iwas anderes deshalb teigtl t o d o aber geht iwie doch weil nur bei dirty state reload ausgelö´t wird
+
+    /*if(current==2){
+      myBanner
+      // typically this happens well before the ad is shown
+        ..load()
+        ..show(
+          // Positions the banner ad 60 pixels from the bottom of the screen
+          anchorOffset: 80.0,
+          // Positions the banner ad 10 pixels from the center of the screen to the right
+          horizontalCenterOffset: 0.0,
+          // Banner Position
+          anchorType: AnchorType.top,
+        );
+    }else{
+      try{myBanner..dispose();}catch(e){}
+      myBanner..dispose();
+    }*/
+
     return Scaffold(
-      body: MapboxMap(
-          compassEnabled: true,
-          //myLocationButtonEnabled: false,
-          myLocationEnabled: true,
-          initialCameraPosition: _myLoc,
-          //mapType: MapType.normal,
-          //markers: Set<Marker>.of(markers),
-          onMapCreated: (MapboxMapController controller){
-            mapController=controller;
-            _setStyle(controller);
-            _controller.complete(controller);
-          }
-      ),
+      //bottomSheet: AdmobBanner(adUnitId: "ca-app-pub-3940256099942544/6300978111",adSize:AdmobBannerSize.FULL_BANNER),
+      body: mapmitad(),
       floatingActionButton: Align(
         alignment: Alignment.bottomRight,
         child: Row(
@@ -118,7 +139,55 @@ class _BMaps extends State<BMaps> {
           ],
         ),
       ),
+
     );
+  }
+
+  Widget mapmitad(){
+    switch (current){
+      case 2:
+        return Stack(
+          alignment: Alignment.topRight,
+          children: <Widget>[
+            gm.GoogleMap(
+                compassEnabled: true,
+                //myLocationButtonEnabled: false,
+                myLocationEnabled: true,
+                initialCameraPosition: _gmmyLoc,
+                //mapType: MapType.normal,
+                //markers: Set<Marker>.of(markers),
+                onMapCreated: (gm.GoogleMapController controller) {
+                  gmmapController = controller;
+                  _setStyle(controller);
+                  _gmcontroller.complete(controller);
+                }
+            ),
+            Container(
+                color: cWHITE,
+                child: AdmobBanner(
+                    adUnitId: "ca-app-pub-3940256099942544/6300978111",
+                    adSize: AdmobBannerSize.LARGE_BANNER)),
+          ],
+        );
+      case 1:
+        return MapboxMap(
+            compassEnabled: true,
+            //myLocationButtonEnabled: false,
+            myLocationEnabled: true,
+            initialCameraPosition: _myLoc,
+            //mapType: MapType.normal,
+            //markers: Set<Marker>.of(markers),
+            onMapCreated: (MapboxMapController controller){
+              mapController=controller;
+              _controller.complete(controller);
+            }
+        );
+
+      case 3:
+        return Text("ja nee ne..  is noch nicht");
+    }
+
+
   }
 
   void _handleResponse(data){
@@ -154,18 +223,19 @@ class _BMaps extends State<BMaps> {
     }
   }
 
-  void _setStyle(MapboxMapController controller) async {
+  void _setStyle(gm.GoogleMapController controller) async {
 
     print("style set");
 
     String value = await DefaultAssetBundle.of(context)
         .loadString('assets/maps_style.json');
-    //controller.setMapStyle(value);
+    controller.setMapStyle(value);
   }
 
 
 
   MapboxMapController mapController;
+  gm.GoogleMapController gmmapController;
 
 
 
@@ -216,6 +286,20 @@ class _BMaps extends State<BMaps> {
       searching = false; // 6
     });
   }
+
+
+  /*BannerAd myBanner = BannerAd(
+    // Replace the testAdUnitId with an ad unit id from the AdMob dash.
+    // https://developers.google.com/admob/android/test-ads
+    // https://developers.google.com/admob/ios/test-ads
+    adUnitId: "ca-app-pub-3940256099942544/6300978111",
+    size: AdSize.smartBanner,
+    listener: (MobileAdEvent event) {
+      print("BannerAd event is $event");
+    },
+  );*/
+
+
 
 }
 
