@@ -3,6 +3,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:webview_flutter/webview_flutter.dart';
 import 'data/place_response.dart';
 import 'data/result.dart';
 import 'data/error.dart';
@@ -68,6 +69,7 @@ class _BMaps extends State<BMaps> {
 
   Completer<MapboxMapController> _controller = Completer();
   Completer<gm.GoogleMapController> _gmcontroller = Completer();
+  Completer<WebViewController> _wvcontroller = Completer();
 
   //List<Marker> markers=<Marker>[];
 
@@ -195,7 +197,18 @@ class _BMaps extends State<BMaps> {
         );
 
       case 3:
-        return Text("ja nee ne..  is noch nicht");
+        return Container(
+          height: 1000,
+          width: 600,
+          color: cACCENT,
+          child: WebView(
+            initialUrl: 'https://maps.openrouteservice.org/',
+            debuggingEnabled: true,
+            onWebViewCreated: (WebViewController webViewController) {
+              _wvcontroller.complete(webViewController);
+            },
+          ),
+        );
     }
 
 
@@ -311,8 +324,8 @@ class _BMaps extends State<BMaps> {
   );*/
 
 
-
 }
+
 
 
 

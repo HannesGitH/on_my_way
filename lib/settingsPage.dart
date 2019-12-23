@@ -241,6 +241,26 @@ class MapsSettings extends StatefulWidget{
       },
     );
   }
+
+  void _showDialogOpenSM(context) {
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: Text("Noch nicht.."),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text("Das geht leider erst in Zukunft")
+            ],
+          ),
+        );
+      },
+    );
+  }
   Widget Possibility(head,discription){
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -303,7 +323,7 @@ class _MapsSettingsS extends State<MapsSettings>{
   }
   write1(){writeo(1);}
   write2(){widget._showDialogGoogle(context);writeo(2);}
-  write3(){writeo(3);}
+  write3(){widget._showDialogOpenSM(context);}
 
   @override
   Widget build(BuildContext context) {
