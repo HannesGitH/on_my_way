@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:on_my_way/MapsBox.dart';
 import 'package:on_my_way/widgets/addRouteButton.dart';
+import 'package:on_my_way/widgets/fakeaddwidget.dart';
 import 'maps.dart';
 import 'package:on_my_way/widgets/standartDrawer.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -29,15 +30,7 @@ class MyApp extends StatelessWidget {
 class RouteAdderPage extends StatelessWidget{
   @override
   Widget build(BuildContext context){
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("OMW NEUES PAKET"),
-        centerTitle: true,
-      ),
-      body: Center(
-        child: Text("Placeholder Dummy , just go back"),
-      ),
-    );
+    return fakeaddwidget();
   }
 }
 
