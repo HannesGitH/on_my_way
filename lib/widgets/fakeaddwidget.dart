@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:on_my_way/res/colors.dart';import 'package:on_my_way/widgets/NotYetImplementedPage.dart';
+import 'package:on_my_way/res/colors.dart';
+import 'package:on_my_way/widgets/NotYetImplementedPage.dart';
 import 'standartDrawer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_admob/firebase_admob.dart';
@@ -13,6 +14,7 @@ class _fakeaddwidgetS extends State<fakeaddwidget> {
   var moneyval=300.0;
   var moneyvalm=3.0;
   var safety="";
+  var pSize=20;
   @override
   void initState() {
     super.initState();
@@ -22,7 +24,7 @@ class _fakeaddwidgetS extends State<fakeaddwidget> {
 
   @override
   Widget build(BuildContext context) {
-    moneyvalm=((moneyval*moneyval*moneyval)/40000).ceil()/100;
+    moneyvalm=((moneyval*moneyval*moneyval)/80000).ceil()/100;
     safety=(moneyval>200.0)?", inklusive 3-Tage-Liefergarantie*":"";
 
     return Scaffold(
@@ -65,11 +67,19 @@ class _fakeaddwidgetS extends State<fakeaddwidget> {
 
   List<Widget> Einstellungen(){
     return <Widget>[
-      Row(
-        children: <Widget>[
-          SizedBox(width:20),
-          Expanded(child: Text("Sie bieten $moneyvalm € $safety")),
-        ],
+      headline(
+        child: Row(
+          children: <Widget>[
+            Icon(Icons.monetization_on),
+            SizedBox(width:5,),
+            Text("Sie bieten $moneyvalm €",style: TextStyle(
+              fontSize: 16,
+            ),),
+            Text("$safety",style: TextStyle(
+              color: cMAIN_DARK,
+            ),),
+          ],
+        )
       ),
       Slider.adaptive(
         value: moneyval??300,
@@ -83,6 +93,59 @@ class _fakeaddwidgetS extends State<fakeaddwidget> {
         //divisions: 20,
         label: "$moneyval ct",
       ),
+      SizedBox(height: 30,),
+      headline(child: Row(
+        children: <Widget>[
+          Icon(Icons.sms_failed,),
+          SizedBox(width: 5,),
+          Text("Titel: ",style: TextStyle(
+            fontSize: 16,
+          ),),
+          Expanded(
+            child: TextField(
+              cursorColor: cGREY,
+              textCapitalization: TextCapitalization.words,
+              style: TextStyle(
+                color:cMAIN_DARK,
+              ),
+              decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintText: 'Titel hier eingeben'
+              ),
+            ),
+          ),
+        ],
+      ),),
+      SizedBox(height:30,),
+      headline(
+          child: Row(
+            children: <Widget>[
+              Icon((pSize<20)?Icons.mail_outline:((pSize<200)?Icons.email:((pSize<800)?Icons.shopping_basket:Icons.business_center))),
+              SizedBox(width:5,),
+              Text("Paketgröße: ca. ",style: TextStyle(
+                fontSize: 16,
+              ),),
+              Text("$pSize Gramm",style: TextStyle(
+                color: cMAIN_DARK,
+                fontSize: 16,
+              ),),
+            ],
+          )
+      ),
+      Slider.adaptive(
+        value: (pSize??20).toDouble(),
+        onChanged: (newVal){
+          setState(() {
+            pSize = newVal.round();
+          });
+        },
+        min: 0,
+        max: 2000,
+        //divisions: 20,
+        //label: "$moneyval ct",
+      ),
+      SizedBox(height: 30,),
+
 
       bottomsequence(),
     ];
@@ -115,5 +178,30 @@ class _fakeaddwidgetS extends State<fakeaddwidget> {
 }
 
 
+class headline extends StatefulWidget {
+  headline({@required this.child});
 
+  final Widget child;
+
+  createState() => _headlineS();
+}
+
+class _headlineS extends State<headline> {
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+      return Row(
+        children: <Widget>[
+          SizedBox(width:20),
+          Expanded(child: widget.child),
+          SizedBox(width:20),
+        ],
+      );
+  }
+}
 
