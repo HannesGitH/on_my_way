@@ -4,6 +4,7 @@ import 'package:on_my_way/widgets/NotYetImplementedPage.dart';
 import 'standartDrawer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_admob/firebase_admob.dart';
+import 'Locationchooser.dart';
 
 
 class fakeaddwidget extends StatefulWidget {
@@ -120,6 +121,46 @@ class _fakeaddwidgetS extends State<fakeaddwidget> {
       headline(
           child: Row(
             children: <Widget>[
+              Icon(Icons.navigation),
+              SizedBox(width:5,),
+              Text("Von",style: TextStyle(
+                fontSize: 16,
+              ),),
+            ],
+          )
+      ),
+      SizedBox(height: 10,),
+      Row(
+        children: <Widget>[
+          SizedBox(width: 20,),
+          Expanded(child: Locationchooser()),
+          SizedBox(width: 20,),
+        ],
+      ),
+      SizedBox(height: 30,),
+      headline(
+          child: Row(
+            children: <Widget>[
+              Icon(Icons.location_on),
+              SizedBox(width:5,),
+              Text("Nach",style: TextStyle(
+                fontSize: 16,
+              ),),
+            ],
+          )
+      ),
+      SizedBox(height: 10,),
+      Row(
+        children: <Widget>[
+          SizedBox(width: 20,),
+          Expanded(child: Locationchooser()),
+          SizedBox(width: 20,),
+        ],
+      ),
+      SizedBox(height: 30,),
+      headline(
+          child: Row(
+            children: <Widget>[
               Icon((pSize<20)?Icons.mail_outline:((pSize<200)?Icons.email:((pSize<800)?Icons.shopping_basket:Icons.business_center))),
               SizedBox(width:5,),
               Text("Paketgröße: ca. ",style: TextStyle(
@@ -145,6 +186,40 @@ class _fakeaddwidgetS extends State<fakeaddwidget> {
         //label: "$moneyval ct",
       ),
       SizedBox(height: 30,),
+      SizedBox(height:20,),
+      headline(
+        child: RawMaterialButton(
+          fillColor: cMAIN,
+          splashColor: cMAIN_HELL,
+          child: Padding(padding: const EdgeInsets.symmetric(
+            vertical: 8.0,
+            horizontal: 20.0,
+          ),
+            child:Row(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Icon(
+                  Icons.check_circle,
+                  color: cWHITE,
+                ),
+                SizedBox(
+                  width: 8.0,
+                ),
+                Text("Paket einstellen",
+                  style: TextStyle(
+                    color: cWHITE,
+                    fontSize: 16,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          onPressed: (){Navigator.pop(context);},
+          shape: StadiumBorder(),
+        ),
+      ),
+      SizedBox(height: 10,),
+
 
 
       bottomsequence(),
