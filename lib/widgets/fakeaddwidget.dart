@@ -25,7 +25,7 @@ class _fakeaddwidgetS extends State<fakeaddwidget> {
   @override
   Widget build(BuildContext context) {
     moneyvalm=((moneyval*moneyval*moneyval)/80000).ceil()/100;
-    safety=(moneyval>200.0)?", inklusive 3-Tage-Liefergarantie*":"";
+    safety=(moneyval>270.0)?", inklusive 3-Tage-Liefergarantie*":"";
 
     return Scaffold(
       endDrawer: standartDrawer(current: 1,),
