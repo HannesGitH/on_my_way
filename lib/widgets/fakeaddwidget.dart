@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:on_my_way/res/colors.dart';
 import 'package:on_my_way/widgets/NotYetImplementedPage.dart';
@@ -12,10 +14,16 @@ class fakeaddwidget extends StatefulWidget {
 }
 
 class _fakeaddwidgetS extends State<fakeaddwidget> {
+
   var moneyval=300.0;
   var moneyvalm=3.0;
   var safety="";
   var pSize=20;
+
+  final Key key2=UniqueKey();
+  final key = GlobalKey();
+
+
   @override
   void initState() {
     super.initState();
@@ -31,6 +39,7 @@ class _fakeaddwidgetS extends State<fakeaddwidget> {
     return Scaffold(
       endDrawer: standartDrawer(current: 1,),
       body: CustomScrollView(
+        dragStartBehavior: DragStartBehavior.start,
         slivers: <Widget>[
           SliverAppBar(
             leading: IconButton(icon:Icon(Icons.arrow_back),
@@ -133,7 +142,7 @@ class _fakeaddwidgetS extends State<fakeaddwidget> {
       Row(
         children: <Widget>[
           SizedBox(width: 20,),
-          Expanded(child: Locationchooser()),
+          Expanded(child: Locationchooser(key:key,)),
           SizedBox(width: 20,),
         ],
       ),

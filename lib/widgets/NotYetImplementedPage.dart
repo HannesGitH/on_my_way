@@ -13,8 +13,29 @@ class NotYetImplementedPage extends StatelessWidget {
         title: Text("NOT YET IMPLEMENTED"),
         centerTitle: true,
       ),
-      body: Center(
-        child: Text("Placeholder Dummy , just go back"),
+      body: Align(
+        alignment: Alignment.center,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Text("Placeholder Dummy , just go back"),
+            Container(
+              height: 100,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: 10,
+                itemBuilder: (context, index) {
+                  return Container(
+                    width: 100.0,
+                    child: Card(
+                      child: Text('NÖ'),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
