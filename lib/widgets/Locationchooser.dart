@@ -49,6 +49,16 @@ class _LocationchooserS extends State<Locationchooser> {
     );
   }
 
+  Future<http.Response> fetchLocationName(lat,long) { //todo [if (response.statusCode == 200) {] (check for internet und fehlerbehandlung
+    String lats=Uri.encodeFull(lat.toString());
+    String longs=Uri.encodeFull(long.toString());
+    return http.get('https://api.mapbox.com/geocoding/v5/mapbox.places/'+longs+','+lats+'.json?access_token=pk.eyJ1IjoiaGFubmVzb213IiwiYSI6ImNrM3NlbXc4czA0N3Yzbm8xcTF2azdxMzUifQ.qgd9llxTGr6HvXQwcz99Cg'
+        +'&limit=1'
+        +'&language=de'
+        +'&types=address'
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -131,6 +141,24 @@ class _LocationchooserS extends State<Locationchooser> {
                   onMapClick: (point,coordi){
                     print("ahoi");print(point);print(coordi); //todo remove
                     try{mapController.removeCircle(start);}catch(e){}
+                    mapController.addCircle(
+                        CircleOptions(
+                          geometry: coordi,
+                          circleColor: "white",
+                          circleOpacity: 0.5,
+                          circleRadius: 10,
+                          circleStrokeColor: "teal",
+                          circleStrokeWidth: 2,
+                        )
+                    ).then((circle){start=circle;});
+                    inputfield.text="Adresse wird berechnet..";
+                    fetchLocationName(coordi.latitude,coordi.longitude).then((value) {
+                      Map<String, dynamic> body = jsonDecode(value.body);
+                      Map<String, dynamic> feature0 = body['features'][0];
+                      var nname = feature0['text_de'];
+                      var nnum = feature0['address'];
+                      inputfield.text=nname+" "+nnum;
+                    });
                   },
                     gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>[ //todo das verstehen haha copy pasta
                       Factory<OneSequenceGestureRecognizer>(
