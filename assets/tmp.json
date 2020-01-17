@@ -1,0 +1,46 @@
+{
+  "type": "FeatureCollection",
+  "query": [
+    "br"
+  ],
+  "features": [
+    {
+      "id": "country.8605848117814600",
+      "type": "Feature",
+      "place_type": [
+        "country"
+      ],
+      "relevance": 1,
+      "properties": {
+        "short_code": "gb",
+        "wikidata": "Q145"
+      },
+      "text_de": "Vereinigtes Königreich",
+      "language_de": "de",
+      "place_name_de": "Vereinigtes Königreich",
+      "text": "Vereinigtes Königreich",
+      "language": "de",
+      "place_name": "Vereinigtes Königreich",
+      "matching_text": "Britania Raya",
+      "matching_place_name": "Britania Raya",
+      "bbox": [
+        -8.718659,
+        49.802665,
+        1.867399,
+        60.945453
+      ],
+      "center": [
+        -2,
+        54
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2,
+          54
+        ]
+      }
+    }
+  ],
+  "attribution": "NOTICE: © 2020 Mapbox and its suppliers. All rights reserved. Use of this data is subject to the Mapbox Terms of Service (https://www.mapbox.com/about/maps/). This response and the information it contains may not be retained. POI(s) provided by Foursquare."
+}

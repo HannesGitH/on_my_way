@@ -184,6 +184,7 @@ class _BMaps extends State<BMaps> {
         );
       case 1:
         return MapboxMap(
+            onMapClick: (p, c){print("ahoi");},
             compassEnabled: true,
             //myLocationButtonEnabled: false,
             myLocationEnabled: true,

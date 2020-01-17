@@ -128,44 +128,34 @@ class _fakeaddwidgetS extends State<fakeaddwidget> {
       ),),
       SizedBox(height:30,),
       headline(
-          child: Row(
-            children: <Widget>[
-              Icon(Icons.navigation),
-              SizedBox(width:5,),
-              Text("Von",style: TextStyle(
-                fontSize: 16,
-              ),),
-            ],
+          child: Locationchooser(
+            child: Row(
+              children: <Widget>[
+                Icon(Icons.navigation),
+                SizedBox(width:5,),
+                Text("Von",style: TextStyle(
+                  fontSize: 16,
+                ),),
+              ],
+            ),
           )
       ),
-      SizedBox(height: 10,),
-      Row(
-        children: <Widget>[
-          SizedBox(width: 20,),
-          Expanded(child: Locationchooser(key:key,)),
-          SizedBox(width: 20,),
-        ],
-      ),
+      
       SizedBox(height: 30,),
       headline(
-          child: Row(
-            children: <Widget>[
-              Icon(Icons.location_on),
-              SizedBox(width:5,),
-              Text("Nach",style: TextStyle(
-                fontSize: 16,
-              ),),
-            ],
+          child: Locationchooser(
+            child: Row(
+              children: <Widget>[
+                Icon(Icons.location_on),
+                SizedBox(width:5,),
+                Text("Nach",style: TextStyle(
+                  fontSize: 16,
+                ),),
+              ],
+            ),
           )
       ),
-      SizedBox(height: 10,),
-      Row(
-        children: <Widget>[
-          SizedBox(width: 20,),
-          Expanded(child: Locationchooser()),
-          SizedBox(width: 20,),
-        ],
-      ),
+
       SizedBox(height: 30,),
       headline(
           child: Row(
