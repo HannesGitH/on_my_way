@@ -7,6 +7,7 @@ import 'standartDrawer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_admob/firebase_admob.dart';
 import 'Locationchooser.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 
 class fakeaddwidget extends StatefulWidget {
@@ -19,6 +20,8 @@ class _fakeaddwidgetS extends State<fakeaddwidget> {
   var moneyvalm=3.0;
   var safety="";
   var pSize=20;
+
+  bool okay=false;
 
   final Key key2=UniqueKey();
   final key = GlobalKey();
@@ -188,7 +191,7 @@ class _fakeaddwidgetS extends State<fakeaddwidget> {
       SizedBox(height:20,),
       headline(
         child: RawMaterialButton(
-          fillColor: cMAIN,
+          fillColor: cGREY_HELL,
           splashColor: cMAIN_HELL,
           child: Padding(padding: const EdgeInsets.symmetric(
             vertical: 8.0,
@@ -198,13 +201,13 @@ class _fakeaddwidgetS extends State<fakeaddwidget> {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Icon(
-                  Icons.check_circle,
+                  okay?Icons.check_circle:Icons.error_outline,
                   color: cWHITE,
                 ),
                 SizedBox(
                   width: 8.0,
                 ),
-                Text("Paket einstellen",
+                Text(okay?"Paket einstellen":"Ihre Einstellungen sind unvollständig",
                   style: TextStyle(
                     color: cWHITE,
                     fontSize: 16,
@@ -213,7 +216,22 @@ class _fakeaddwidgetS extends State<fakeaddwidget> {
               ],
             ),
           ),
-          onPressed: (){Navigator.pop(context);},
+          onPressed: (){
+            if(okay){
+              Navigator.pop(context);
+            }else{
+              print("shouldctoast");
+              Fluttertoast.showToast(
+                  msg: "Es scheinen nicht alle Angaben korrekt zu sein.",
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.CENTER,
+                  timeInSecForIos: 1,
+                  backgroundColor: Color.fromARGB(190, cACCENT.red, cACCENT.green, cACCENT.blue),
+                  textColor: cWHITE,
+                  fontSize: 16.0,
+              );
+            }
+          },
           shape: StadiumBorder(),
         ),
       ),
