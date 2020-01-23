@@ -22,6 +22,8 @@ class _fakeaddwidgetS extends State<fakeaddwidget> {
   var pSize=20;
 
   bool okay=false;
+  bool startok=false;
+  bool endok=false;
 
   final Key key2=UniqueKey();
   final key = GlobalKey();
@@ -36,6 +38,7 @@ class _fakeaddwidgetS extends State<fakeaddwidget> {
 
   @override
   Widget build(BuildContext context) {
+    okay=(startok&&endok);
     moneyvalm=((moneyval*moneyval*moneyval)/80000).ceil()/100;
     safety=(moneyval>270.0)?", inklusive 3-Tage-Liefergarantie*":"";
 
@@ -191,7 +194,7 @@ class _fakeaddwidgetS extends State<fakeaddwidget> {
       SizedBox(height:20,),
       headline(
         child: RawMaterialButton(
-          fillColor: cGREY_HELL,
+          fillColor: okay?cMAIN:cGREY_HELL,
           splashColor: cMAIN_HELL,
           child: Padding(padding: const EdgeInsets.symmetric(
             vertical: 8.0,

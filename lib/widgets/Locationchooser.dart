@@ -37,10 +37,11 @@ class _LocationchooserS extends State<Locationchooser> {
   );
 
   Circle start;
+  Circle starttmp;
 
   TextEditingController inputfield = TextEditingController() ;
 
-  Future<http.Response> fetchPost(String searchText,) { //todo [if (response.statusCode == 200) {] (check for internet und fehlerbehandlung
+  Future<http.Response> fetchPost(String searchText,) {
     String st=Uri.encodeFull(searchText);
     return http.get('https://api.mapbox.com/geocoding/v5/mapbox.places/'+st+'.json?access_token=pk.eyJ1IjoiaGFubmVzb213IiwiYSI6ImNrM3NlbXc4czA0N3Yzbm8xcTF2azdxMzUifQ.qgd9llxTGr6HvXQwcz99Cg'
         +'&limit=1'
@@ -49,7 +50,7 @@ class _LocationchooserS extends State<Locationchooser> {
     );
   }
 
-  Future<http.Response> fetchLocationName(lat,long) { //todo [if (response.statusCode == 200) {] (check for internet und fehlerbehandlung
+  Future<http.Response> fetchLocationName(lat,long) {
     String lats=Uri.encodeFull(lat.toString());
     String longs=Uri.encodeFull(long.toString());
     return http.get('https://api.mapbox.com/geocoding/v5/mapbox.places/'+longs+','+lats+'.json?access_token=pk.eyJ1IjoiaGFubmVzb213IiwiYSI6ImNrM3NlbXc4czA0N3Yzbm8xcTF2azdxMzUifQ.qgd9llxTGr6HvXQwcz99Cg'
@@ -77,30 +78,38 @@ class _LocationchooserS extends State<Locationchooser> {
                   controller: inputfield,
                   onSubmitted: (searchString){
                     fetchPost(searchString).then((value) {
-                      Map<String,dynamic> body= jsonDecode(value.body);
-                      Map<String,dynamic> feature0 = body['features'][0];
-                      var coords=feature0['center'];
-                      var nname=feature0['text_de'];
-                      try{mapController.removeCircle(start);}catch(e){}
-                      mapController.addCircle(
-                        CircleOptions(
-                          geometry: LatLng(coords[1], coords[0]),
-                          circleColor: "white",
-                          circleOpacity: 0.5,
-                          circleRadius: 10,
-                          circleStrokeColor: "teal",
-                          circleStrokeWidth: 2,
-                        )
-                      ).then((circle){start=circle;});
-                      mapController.animateCamera(
-                        CameraUpdate.newCameraPosition(
-                        CameraPosition(
-                          target: LatLng(coords[1], coords[0]), zoom: 12.0,
-                        ),
-                        ),
-                      );
-                      inputfield.text=nname;
-                      print(nname);
+                      if(value.statusCode==200) { //todo behandlung falls ort nicht gefunden
+                        Map<String, dynamic> body = jsonDecode(value.body);
+                        Map<String, dynamic> feature0 = body['features'][0];
+                        var coords = feature0['center'];
+                        var nname = feature0['text_de'];
+                        try {
+                          mapController.removeCircle(start);
+                        } catch (e) {}
+                        mapController.addCircle(
+                            CircleOptions(
+                              geometry: LatLng(coords[1], coords[0]),
+                              circleColor: "white",
+                              circleOpacity: 0.5,
+                              circleRadius: 10,
+                              circleStrokeColor: "teal",
+                              circleStrokeWidth: 2,
+                            )
+                        ).then((circle) {
+                          start = circle;
+                        });
+                        mapController.animateCamera(
+                          CameraUpdate.newCameraPosition(
+                            CameraPosition(
+                              target: LatLng(coords[1], coords[0]), zoom: 12.0,
+                            ),
+                          ),
+                        );
+                        inputfield.text = nname;
+                        print(nname);
+                      }else{
+                        inputfield.text = "Internet Problem";
+                      }
                     });
                   },
                   cursorColor: cGREY,
@@ -139,7 +148,6 @@ class _LocationchooserS extends State<Locationchooser> {
                 height: 150,
                 child: MapboxMap(
                   onMapClick: (point,coordi){
-                    print("ahoi");print(point);print(coordi); //todo remove
                     try{mapController.removeCircle(start);}catch(e){}
                     mapController.addCircle(
                         CircleOptions(
@@ -150,14 +158,29 @@ class _LocationchooserS extends State<Locationchooser> {
                           circleStrokeColor: "teal",
                           circleStrokeWidth: 2,
                         )
-                    ).then((circle){start=circle;});
+                    ).then((circle){starttmp=circle;});
                     inputfield.text="Adresse wird berechnet..";
                     fetchLocationName(coordi.latitude,coordi.longitude).then((value) {
-                      Map<String, dynamic> body = jsonDecode(value.body);
-                      Map<String, dynamic> feature0 = body['features'][0];
-                      var nname = feature0['text_de'];
-                      var nnum = feature0['address'];
-                      inputfield.text=nname+" "+nnum;
+                      if(value.statusCode==200) {//todo behandlung falls ort nicht gefunden
+                        Map<String, dynamic> body = jsonDecode(value.body);
+                        Map<String, dynamic> feature0 = body['features'][0];
+                        var nname = feature0['text_de'];
+                        var nnum = feature0['address'];
+                        inputfield.text = nname + " " + nnum;
+                        start = starttmp;
+                      }else{
+                        mapController.addCircle(
+                            CircleOptions(
+                              geometry: coordi,
+                              circleColor: "white",
+                              circleOpacity: 0.5,
+                              circleRadius: 10,
+                              circleStrokeColor: "teal",
+                              circleStrokeWidth: 2,
+                            )
+                        );
+                        inputfield.text="Internet Error";
+                      }
                     });
                   },
                     gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>[ //todo das verstehen haha copy pasta
