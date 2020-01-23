@@ -15,8 +15,10 @@ class Locationchooser extends StatefulWidget {
 
   EagerGestureRecognizer skoup =EagerGestureRecognizer();
 
-  Locationchooser({Key key, this.child}) : super(key: key);
+  Locationchooser({Key key, this.child, this.output}) : super(key: key);
   //final key;
+
+  final BoolCallback output;
   final Widget child;
   State<StatefulWidget> createState() => _LocationchooserS();
 }
@@ -40,6 +42,19 @@ class _LocationchooserS extends State<Locationchooser> {
   Circle starttmp;
 
   TextEditingController inputfield = TextEditingController() ;
+
+
+  bool isok=false;
+
+  void onError(){
+    inputfield.text = "Probier`s nochmal";
+    isok=false;
+    widget.output(isok);
+  }
+  void onSuccess(coords){
+    isok=true;
+    widget.output(isok);
+  }
 
   Future<Map<String, dynamic>> fetchPost(String searchText,) async {
     String st=Uri.encodeFull(searchText);
@@ -110,15 +125,7 @@ class _LocationchooserS extends State<Locationchooser> {
     super.initState();
   }
 
-  bool isok=false;
 
-  void onError(){
-    inputfield.text = "Probier`s nochmal";
-    isok=false;
-  }
-  void onSuccess(coords){
-    isok=true;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -139,7 +146,7 @@ class _LocationchooserS extends State<Locationchooser> {
                         print(coords);
                         var nname = feature0['text_de'];
                         try {
-                          mapController.removeCircle(start);
+                          mapController.clearCircles();
                         } catch (e) {}
                         mapController.addCircle(
                             CircleOptions(
@@ -205,7 +212,7 @@ class _LocationchooserS extends State<Locationchooser> {
                 height: 150,
                 child: MapboxMap(
                   onMapClick: (point,coordi){
-                    try{mapController.removeCircle(start);}catch(e){}
+                    try{mapController.clearCircles();}catch(e){}
                     mapController.addCircle(
                         CircleOptions(
                           geometry: coordi,
@@ -265,6 +272,8 @@ class _LocationchooserS extends State<Locationchooser> {
       );
   }
 }
+
+typedef BoolCallback = void Function(bool);
 
 class MapSRes {
   final int userId;

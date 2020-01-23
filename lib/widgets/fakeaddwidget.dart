@@ -135,6 +135,9 @@ class _fakeaddwidgetS extends State<fakeaddwidget> {
       SizedBox(height:30,),
       headline(
           child: Locationchooser(
+            output: (bo){setState(() {
+              startok=bo;
+            });},
             child: Row(
               children: <Widget>[
                 Icon(Icons.navigation),
@@ -150,6 +153,9 @@ class _fakeaddwidgetS extends State<fakeaddwidget> {
       SizedBox(height: 30,),
       headline(
           child: Locationchooser(
+            output: (bo){setState(() {
+              endok=bo;
+            });},
             child: Row(
               children: <Widget>[
                 Icon(Icons.location_on),
@@ -221,6 +227,15 @@ class _fakeaddwidgetS extends State<fakeaddwidget> {
           ),
           onPressed: (){
             if(okay){
+              Fluttertoast.showToast(
+                msg: "Paket einstellen Erfolgreich",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.CENTER,
+                timeInSecForIos: 1,
+                backgroundColor: Color.fromARGB(190, cMAIN.red, cMAIN.green, cMAIN.blue),
+                textColor: cWHITE,
+                fontSize: 16.0,
+              );
               Navigator.pop(context);
             }else{
               print("shouldctoast");
