@@ -1,4 +1,5 @@
 
+import 'package:on_my_way/developer_site.dart';
 import 'package:on_my_way/res/colors.dart';
 
 import 'MyListTile.dart';
@@ -54,6 +55,15 @@ class standartDrawer extends StatelessWidget {
                     text:'Anmelden',
                     onTap: () {
                       notYetPage(context);
+                    },
+                  ),
+                  MyListTile(
+                    color: cACCENT,
+                    //todo: remove when building final
+                    icon:Icons.developer_board,
+                    text:'Developer Options',
+                    onTap: () {
+                      devPage(context);
                     },
                   ),
                 ],
