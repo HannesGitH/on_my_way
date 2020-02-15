@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_admob/firebase_admob.dart';
 import 'Locationchooser.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:http/http.dart' as http;
 
 
 class fakeaddwidget extends StatefulWidget {
@@ -227,16 +228,37 @@ class _fakeaddwidgetS extends State<fakeaddwidget> {
           ),
           onPressed: (){
             if(okay){
-              Fluttertoast.showToast(
-                msg: "Paket einstellen Erfolgreich",
-                toastLength: Toast.LENGTH_SHORT,
-                gravity: ToastGravity.CENTER,
-                timeInSecForIos: 1,
-                backgroundColor: Color.fromARGB(190, cMAIN.red, cMAIN.green, cMAIN.blue),
-                textColor: cWHITE,
-                fontSize: 16.0,
-              );
-              Navigator.pop(context);
+
+              try {
+                var uriResponse = http.post('https://hannes.godigitalnow.de',
+                    body: {'pass':'HannesTest','author': 'hannes_dev_test',  'title':'test_title','location_at':'berlin_this_is_invalid', 'location_to':'berlin_this_is_invalid','weight':'1000','price':'333'});
+                uriResponse.then((v){print(v.body);print("-----------------------");});
+
+
+                Fluttertoast.showToast(
+                  msg: "Paket einstellen Erfolgreich",
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.CENTER,
+                  timeInSecForIos: 1,
+                  backgroundColor: Color.fromARGB(190, cMAIN.red, cMAIN.green, cMAIN.blue),
+                  textColor: cWHITE,
+                  fontSize: 16.0,
+                );
+                Navigator.pop(context);
+
+              }catch(e){
+                Fluttertoast.showToast(
+                  msg: "Es scheint einen Fehler gegeben zu haben.",
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.CENTER,
+                  timeInSecForIos: 1,
+                  backgroundColor: Color.fromARGB(190, cACCENT.red, cACCENT.green, cACCENT.blue),
+                  textColor: cWHITE,
+                  fontSize: 16.0,
+                );
+              }
+
+
             }else{
               print("shouldctoast");
               Fluttertoast.showToast(
